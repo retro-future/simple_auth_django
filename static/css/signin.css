@@ -1,8 +1,9 @@
 html,
 body {
-  height: 100%;
+  height: 100vh;
   background: url("../img/background2.jpg");
   background-size:cover;
+
 }
 
 body {
@@ -30,8 +31,8 @@ body {
   z-index: 2;
 }
 
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
+.form-signin input[type="text"] {
+  margin-bottom: 10px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -44,4 +45,15 @@ body {
 
 .logo{
   font-size: 35px;
+}
+
+
+.main_content{
+  width: 100%;
+  max-width: 600px;
+  padding: 15px;
+  margin: auto;
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  font-size: 25px;
 }
