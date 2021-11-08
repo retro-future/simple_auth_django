@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
 
 from simple_auth.models import CustomAuthUser
 
@@ -40,7 +40,6 @@ class CustomAuthUserForm(forms.ModelForm):
 
     def clean(self):
         if self.is_valid():
-
             username = self.cleaned_data.get('username')
             password = self.cleaned_data.get('password')
             if not authenticate(username=username, password=password):

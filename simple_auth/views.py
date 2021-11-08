@@ -1,8 +1,10 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.urls import reverse
+
 from simple_auth.forms import CustomAuthUserForm, RegistrationForm
 
 
@@ -32,6 +34,11 @@ def custom_login(request):
         form = CustomAuthUserForm()
     context["form"] = form
     return render(request, "login_page.html", context)
+
+
+def custom_logout(request):
+    logout(request)
+    return redirect("home")
 
 
 def registration_view(request):
