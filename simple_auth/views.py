@@ -1,10 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
-
-# Create your views here.
-from django.urls import reverse
-
 from simple_auth.forms import CustomAuthUserForm, RegistrationForm
 
 
