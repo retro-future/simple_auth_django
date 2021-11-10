@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
 import os
 from environs import Env
 
@@ -136,3 +137,7 @@ STATICFILES_DIRS = (STATIC_DIR,)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'simple_auth.CustomAuthUser'
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}

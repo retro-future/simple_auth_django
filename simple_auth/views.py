@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from simple_auth.forms import CustomAuthUserForm, RegistrationForm
@@ -19,12 +20,15 @@ def custom_login(request):
 
     if request.method == "POST":
         form = CustomAuthUserForm(request.POST)
-        username = request.POST.get("username")
+        email = request.POST.get("email")
         password = request.POST.get("password")
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
         if user:
             login(request, user)
+            messages.success(request, "Logged In")
             return redirect('home')
+        else:
+            messages.error(request, "Please write credentials correct")
     else:
         form = CustomAuthUserForm()
     context["form"] = form
@@ -33,17 +37,27 @@ def custom_login(request):
 
 def custom_logout(request):
     logout(request)
+    messages.success(request, "Logged Out")
     return redirect("home")
 
 
 def registration_view(request):
+    """
+     Renders Registration Form
+    """
     context = {}
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            email = form.cleaned_data.get('email')
+            raw_pass = form.cleaned_data.get('password1')
+            account = authenticate(email=email, password=raw_pass)
+            login(request, account)
+            messages.success(request, "You have been Registered as {}".format(request.user.username))
             return redirect("reg_done")
         else:
+            messages.error(request, "Please Correct Below Errors")
             context["form"] = form
     else:
         form = RegistrationForm()

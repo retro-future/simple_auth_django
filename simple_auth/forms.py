@@ -9,18 +9,21 @@ class RegistrationForm(UserCreationForm):
     """
         Form for Registering new users
     """
-    username = forms.CharField(max_length=150, help_text="Enter some username")
+    email = forms.CharField(max_length=150, help_text="Enter some username")
 
     class Meta:
         model = CustomAuthUser
-        fields = ("username", "password1", "password2")
+        fields = ("email", "username", "password1", "password2")
 
     def __init__(self, *args, **kwargs):
         """
           specifying styles to fields
         """
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        for field in (self.fields['username'], self.fields['password1'], self.fields['password2']):
+        for field in (self.fields['email'],
+                      self.fields['username'],
+                      self.fields['password1'],
+                      self.fields['password2']):
             field.widget.attrs.update({'class': 'form-control '})
 
 
@@ -30,13 +33,21 @@ class CustomAuthUserForm(forms.ModelForm):
     """
     class Meta:
         model = CustomAuthUser
-        fields = ('username', 'password')
+        fields = ('email', 'password')
         widgets = {
-            "username": forms.TextInput(
+            "email": forms.TextInput(
                 attrs={'placeholder': 'Username', 'class': 'form-control', 'id': 'floatingInput'}),
             "password": forms.PasswordInput(
                 attrs={'placeholder': 'Password', 'class': 'form-control', 'id': 'floatingInput'})
         }
+
+    def __init__(self, *args, **kwargs):
+        """
+        specifying styles to fields
+        """
+        super(CustomAuthUserForm, self).__init__(*args, **kwargs)
+        for field in (self.fields['email'], self.fields['password']):
+            field.widget.attrs.update({"class": "form-control"})
 
     def clean(self):
         if self.is_valid():
