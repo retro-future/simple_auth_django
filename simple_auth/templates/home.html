@@ -2,9 +2,13 @@
 
 {% block content %}
     <main class="text-light main_content">
-        {% if user.is_authenticated  %}
-        <h1>You've successfully signed-in!</h1>
-        <h2>You can now <a href="{% url "logout" %}">sign-out</a></h2>
+        {% if user.is_authenticated %}
+            <h1>You've successfully signed-in!</h1>
+            <p class="p-5 display-4">Welcome <i class=" display-3 text-info">{{ request.user.username|title }}</i>
+                Your email id is <i class="text-success">{{ request.user.email }}
+                </i>
+            </p>
+            <h2>You can now <a href="{% url "logout" %}">sign-out</a></h2>
         {% else %}
             <h1>Please Login <a href="{% url "login" %}">here</a></h1>
         {% endif %}

@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from simple_auth.forms import CustomAuthUserForm, RegistrationForm
+from simple_auth.forms import CustomAuthUserForm, RegistrationForm, UserUpdateForm
 
 
 def home(request):
@@ -63,3 +63,30 @@ def registration_view(request):
         form = RegistrationForm()
         context['form'] = form
     return render(request, "registration_page.html", context)
+
+
+def account_view(request):
+    """
+    Renders userprofile page
+    """
+
+    if not request.user.is_authenticated:
+        return redirect("login")
+    context = {}
+
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "profile Updated")
+        else:
+            messages.error(request, "Please Correct Below Errors")
+    else:
+        form = UserUpdateForm(
+            initial={
+                "email": request.user.email,
+                "username": request.user.username
+            }
+        )
+    context['form'] = form
+    return render(request, "userprofile.html", context)
